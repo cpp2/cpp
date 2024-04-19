@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 public class CommandPay {
 
     /**
-     * 订单id
+     * 订单编号
      */
-    private String orderId;
+    private String orderNo;
 
     /**
      * 订单状态
      */
-    private String payStatus;
+    private Integer payStatus;
 }

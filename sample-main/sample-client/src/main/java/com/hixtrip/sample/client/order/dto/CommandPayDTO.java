@@ -17,12 +17,12 @@ public class CommandPayDTO {
     /**
      * 订单id
      */
-    private String orderId;
+    private String orderNo;
 
     /**
      * 支付状态
      */
-    private String payStatus;
+    private Integer payStatus;
 
 
 }

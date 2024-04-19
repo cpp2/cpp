@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hixtrip.sample.infra.db.mapper.OrderMapper">
+
+    <resultMap id="dataMap" type="com.hixtrip.sample.infra.db.dataobject.OrderPO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="payment_amount" property="paymentAmount"/>
+        <result column="shipping_fee" property="shippingFee"/>
+        <result column="discount_amount" property="discountAmount"/>
+        <result column="pay_type" property="payType"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="order_time" property="orderTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="remark" property="remark"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+
+    </resultMap>
+
+    <update id="updatePaymentSuccess">
+        UPDATE order_info SET pay_status = #{payStatus}, order_status = #{orderStatus}, pay_time = now(), update_time = now()
+        WHERE order_no = #{orderNo}
+    </update>
+
+    <update id="updatePaymentFailed">
+        UPDATE order_info SET pay_status = #{payStatus}, pay_time = now(), update_time = now()
+        WHERE order_no = #{orderNo}
+    </update>
+
+</mapper>

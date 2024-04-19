@@ -1,5 +1,6 @@
-package com.hixtrip.sample.domain.order.model;
+package com.hixtrip.sample.infra.db.dataobject;
 
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,22 +9,22 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 /**
- * 订单表
+ * 订单
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@TableName(value = "order_info", autoResultMap = true)
 @SuperBuilder(toBuilder = true)
-public class Order {
+public class OrderPO {
 
     /**
      * 订单号
      */
+    @TableId
     private String id;
     /**
      * 订单编号
@@ -80,6 +81,7 @@ public class Order {
     /**
      * 删除标志（0代表存在 1代表删除）
      */
+    @TableLogic
     private Long delFlag;
     /**
      * 创建人
@@ -88,6 +90,7 @@ public class Order {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     /**
      * 修改人
@@ -96,46 +99,7 @@ public class Order {
     /**
      * 修改时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-    /**
-     * 订单详情
-     */
-    List<OrderDetail> orderDetailList;
-
-    /**
-     * 订单总价=订单详情每个商品的价格之和
-     */
-    public BigDecimal calcTotalAmount(){
-        return orderDetailList.stream().map(OrderDetail::getTotalAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    /**
-     * 支付金额=订单总额+运费-优惠金额
-     * @return
-     */
-    public BigDecimal calcPaymentAmount(){
-        BigDecimal amount = calcTotalAmount();
-        BigDecimal payAmount = amount;
-        if (Objects.nonNull(this.discountAmount)) {
-            payAmount = amount.add(shippingFee);
-        }
-        if(Objects.nonNull(this.discountAmount)){
-            payAmount = payAmount.subtract(discountAmount);
-        }
-        return payAmount;
-    }
-
-    /**
-     * 生成订单编号
-     * @return
-     */
-    public String generateOrderNo() {
-        // 按规则生成订单编号（这边先写死），后面几位取用户id后几位
-        if (userId == null) {
-            throw new RuntimeException("用户登录已过期，请重新登录");
-        }
-        String lastUserId = userId.substring(userId.length() - 6);
-        return "1111111111111" + lastUserId;
-    }
 
 }

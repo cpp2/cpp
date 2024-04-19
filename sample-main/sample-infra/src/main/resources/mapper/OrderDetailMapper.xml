@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hixtrip.sample.infra.db.mapper.OrderDetailMapper">
+
+    <resultMap id="dataMap" type="com.hixtrip.sample.infra.db.dataobject.OrderDetailPO">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="remark" property="remark"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+
+    </resultMap>
+
+    <insert id="insertBatchOrderDetail" parameterType="com.hixtrip.sample.infra.db.dataobject.OrderDetailPO">
+        insert into order_detail(id, order_no, sku_id, quantity, unit_price, total_amount, create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.orderNo}, #{item.skuId}, #{item.quantity}, #{item.unitPrice}, #{item.totalAmount}, now(), now())
+        </foreach>
+    </insert>
+
+    <select id="getByOrderNo" resultType="com.hixtrip.sample.infra.db.dataobject.OrderDetailPO">
+        select id, order_no, sku_id, quantity from order_detail where del_flag = 0 and order_no = #{orderNo}
+    </select>
+
+</mapper>
