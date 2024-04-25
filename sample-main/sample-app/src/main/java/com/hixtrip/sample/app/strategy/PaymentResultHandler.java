@@ -1,4 +1,4 @@
-package com.hixtrip.sample.domain.pay.strategy;
+package com.hixtrip.sample.app.strategy;
 
 import com.hixtrip.sample.domain.pay.model.CommandPay;
 
@@ -8,6 +8,12 @@ import com.hixtrip.sample.domain.pay.model.CommandPay;
  * @author cpp
  */
 public interface PaymentResultHandler {
+
+    /**
+     * 要执行的方法
+     * @return
+     */
+    Integer getStatus();
 
     /**
      * 要执行的方法

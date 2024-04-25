@@ -1,20 +1,19 @@
-package com.hixtrip.sample.domain.pay;
+package com.hixtrip.sample.app.service;
 
+import com.hixtrip.sample.app.strategy.PaymentResultHandler;
 import com.hixtrip.sample.domain.inventory.InventoryDomainService;
 import com.hixtrip.sample.domain.order.OrderDomainService;
 import com.hixtrip.sample.domain.order.model.OrderDetail;
+import com.hixtrip.sample.domain.pay.PayDomainService;
 import com.hixtrip.sample.domain.pay.enums.PayResultEnum;
 import com.hixtrip.sample.domain.pay.model.CommandPay;
-import com.hixtrip.sample.domain.pay.strategy.PaymentResultFactory;
-import com.hixtrip.sample.domain.pay.strategy.PaymentResultHandler;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class PaymentSuccess implements PaymentResultHandler, InitializingBean {
+public class PaymentSuccess implements PaymentResultHandler {
 
     @Autowired
     private OrderDomainService orderDomainService;
@@ -24,8 +23,8 @@ public class PaymentSuccess implements PaymentResultHandler, InitializingBean {
     private PayDomainService payDomainService;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        PaymentResultFactory.register(PayResultEnum.PAYMENT_SUCCESS.getCode(), this);
+    public Integer getStatus() {
+        return PayResultEnum.PAYMENT_SUCCESS.getCode();
     }
 
     @Override
